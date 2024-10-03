@@ -328,7 +328,35 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Sriwijaya** dan **Majapahit** :
+    - buka file `named.conf.options`
+        ```
+        nano /etc/bind/named.conf.options
+        ```
+    - Ganti isi nya menjadi :
+        ```
+        options {
+                    directory "/var/cache/bind";
+                    allow-query{any;};
+                    forwarders {
+                        192.168.122.1; //IP Erangel
+                    };
+                    auth-nxdomain no;    # conform to RFC1035
+                    listen-on-v6 { any; };
+            };
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- pastikan pada `/etc/resolve.conf` tidak ada `nameserver 192.168.122.1`
+
+    ![image](https://github.com/user-attachments/assets/e2f5643b-5ebe-42ad-8404-2e0086ef87ed)
+
+- coba `ping google.com`
+
+    ![image](https://github.com/user-attachments/assets/8f4c92d1-a25b-45b5-afbe-e5828e04be0e)
 
 ### Nomor 12
 **Soal:**

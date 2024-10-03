@@ -315,16 +315,7 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
-
-### Nomor 6
-**Soal:**
-> Beberapa daerah memiliki keterbatasan yang menyebabkan hanya dapat mengakses domain secara langsung melalui alamat IP domain tersebut. Karena daerah tersebut tidak diketahui secara spesifik, pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga (Notes: menggunakan pointer record).
-
-**Script / Config :**
-
-[isi langkah-langkah disini]
-
+**Pastikan bahwa semua domain yang telah dikonfigurasi dapat diakses oleh seluruh komputer (klien) yang terhubung di jaringan Nusantara, lakukan pengujian berupa penggunaan perintah ping**
 **Testing pada semua client** :
 
    - Lakukan test ptr pada `semua client` dengan perintah berikut ini :
@@ -333,11 +324,53 @@
      ping pasopati.it12.com
      ping rujapala.it12.com
      ```
+     ![2 3](https://github.com/user-attachments/assets/b5cfd0eb-05bd-4302-806f-6f6d110b2f9e)
 
-     ![6 1](https://github.com/user-attachments/assets/1bbfa6f4-9094-48e0-ab75-a111570fc146)
+     ![3 1](https://github.com/user-attachments/assets/3650a106-0092-46bf-871b-0515fc372ad3)
 
-     ![6 2](https://github.com/user-attachments/assets/8c572861-a4ee-4f6d-b4a8-bc1c3b14d86e)
+     ![4 2](https://github.com/user-attachments/assets/369128ae-d5f3-459e-940f-d466de342e8e)
 
+### Nomor 6
+**Soal:**
+> Beberapa daerah memiliki keterbatasan yang menyebabkan hanya dapat mengakses domain secara langsung melalui alamat IP domain tersebut. Karena daerah tersebut tidak diketahui secara spesifik, pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga (Notes: menggunakan pointer record).
+
+**Script / Config :**
+
+**Untuk mengatur reverse DNS, ambil tiga angka pertama dari alamat IP server kami dan susun kembali. Maka hasil reverse-nya akan menjadi 2.239.192. Masukkan script pada file `setup.sh` :**
+- ```
+  # Menambahkan REVERSE DNS
+    echo "configure reverse dns..."
+    echo 'zone "2.239.192.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.2.239.192.in-addr.arpa";
+    };' >> /etc/bind/named.conf.local
+
+    cp /etc/bind/db.local /etc/bind/db.2.239.192.in-addr.arpa
+
+    echo ';' > /etc/bind/db.2.239.192.in-addr.arpa
+    echo '; BIND data file for local loopback interface' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo ';' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '$TTL    604800' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '@       IN      SOA     pasopati.it12.com. root.pasopati.it12.com. (' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '                        2024050301      ; Serial' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '                        604800         ; Refresh' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '                        86400          ; Retry' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '                        2419200        ; Expire' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '                        604800 )       ; Negative Cache TTL' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo ';' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '2.239.192.in-addr.arpa.    IN      NS      pasopati.it12.com.' >> /etc/bind/db.2.239.192.in-addr.arpa
+    echo '4                       IN      PTR     pasopati.it12.com.' >> /etc/bind/db.2.239.192.in-addr.arpa
+
+
+    echo "Restarting bind9 service..."
+    service bind9 restart
+
+    echo "DNS Master server setup completed."
+  ```
+
+  ![6 1](https://github.com/user-attachments/assets/1bbfa6f4-9094-48e0-ab75-a111570fc146)
+  
+  [6 2](https://github.com/user-attachments/assets/8c572861-a4ee-4f6d-b4a8-bc1c3b14d86e)
 
 ### Nomor 7
 **Soal:**

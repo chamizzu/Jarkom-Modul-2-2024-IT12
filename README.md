@@ -74,29 +74,20 @@
   apt-get install bind9 -y
   ```
 
-
 **Testing pada semua node** :
 
    - Lakukan ping pada `semua node` dengan perintah `ping google.com`
-     ![1 ANUSPATI](https://github.com/user-attachments/assets/5664a377-25e9-448e-8849-33d5a47a05d4)
-
      ![1 BEDAHULU](https://github.com/user-attachments/assets/4d4dac4f-d7d7-44ac-8292-af36bc691076)
 
      ![1 JAYANEGARA](https://github.com/user-attachments/assets/29c0fa44-f45c-41bd-a7df-177ff4c80c04)
-
-     ![1 KOTALINGGA](https://github.com/user-attachments/assets/1439cf71-6d73-43ce-96fb-f4df08aa55ab)
 
      ![1 MAJAPAHIT](https://github.com/user-attachments/assets/0945a7ef-2251-4163-a9e8-1810a22240e7)
 
      ![1 NUSANTARA](https://github.com/user-attachments/assets/2b725c70-82f0-43ee-8536-cfcdc2311504)
 
-     ![1 SANJAYA](https://github.com/user-attachments/assets/9bf1c5a6-b595-406c-870e-580090322422)
-
      ![1 SOLOK](https://github.com/user-attachments/assets/6bcd08de-d58f-4120-bfd0-e5f3918d9230)
 
      ![1 SRIWIJAYA](https://github.com/user-attachments/assets/9f17aac8-c0c9-48ff-a8db-d95363c2049e)
-
-     ![1 TANJUGKULAI](https://github.com/user-attachments/assets/d18940a9-ff0b-40ed-805d-a1c58ae1e030)
 
 
 ### Nomor 2
@@ -106,18 +97,18 @@
 **Script / Config :**
 
 **Jalankan perintah berikut untuk memperbarui paket dan menginstal Bind9 :**
-- ```
+- ```bash
   apt-get update
   apt-get install bind9 -y
   ```
 
 **Menjalankan service Bind9 :**
-- ```
+- ```bash
   service bind9 start
   ```
 
 **Tambahkan baris berikut pada file `setup.sh` untuk mengonfigurasi zona DNS :**
-- ```
+- ```bash
   elif [[ $1 == "dns-master" ]]; then
     echo "Configuring DNS resolver..."
     echo "nameserver 192.168.122.1" > /etc/resolv.conf
@@ -141,7 +132,7 @@
   ```
 
 **Tambahkan DNS record berikut :**
-- ```
+- ```bash
   echo ';' > /etc/bind/db.sudarsana.it12.com
     echo '; BIND data file for local loopback interface' >> /etc/bind/db.sudarsana.it12.com
     echo ';' >> /etc/bind/db.sudarsana.it12.com
@@ -160,7 +151,7 @@
   ```
 
 **Setelah konfigurasi selesai, restart Bind9 :**
-- ```
+- ```bash
   service bind9 restart
   ```
 
@@ -182,18 +173,18 @@
 **Script / Config :**
 
 **Jalankan perintah berikut untuk memperbarui paket dan menginstal Bind9 :**
-- ```
+- ```bash
   apt-get update
   apt-get install bind9 -y
   ```
 
 **Menjalankan service Bind9 :**
-- ```
+- ```bash
   service bind9 start
   ```
 
 **Tambahkan baris berikut pada file `setup.sh` untuk mengonfigurasi zona DNS :**
-- ```
+- ```bash
   # menambah pasopati
     echo "Menambahkan konfigurasi zona pasopati.it12.com ke /etc/bind/named.conf.local..."
     echo 'zone "pasopati.it12.com" {' >> /etc/bind/named.conf.local
@@ -208,7 +199,7 @@
   ```
 
 **Tambahkan DNS record berikut :**
-- ```
+- ```bash
   echo ';' > /etc/bind/db.pasopati.it12.com
     echo '; BIND data file for local loopback interface' >> /etc/bind/db.pasopati.it12.com
     echo ';' >> /etc/bind/db.pasopati.it12.com
@@ -228,7 +219,7 @@
   ```
 
 **Setelah konfigurasi selesai, restart Bind9 berikut:**
-- ```
+- ```bash
   service bind9 restart
   ```
 
@@ -250,18 +241,18 @@
 **Script / Config :**
 
 **Jalankan perintah berikut untuk memperbarui paket dan menginstal Bind9 :**
-- ```
+- ```bash
   apt-get update
   apt-get install bind9 -y
   ```
 
 **Menjalankan service Bind9 :**
-- ```
+- ```bash
   service bind9 start
   ```
   
 **Tambahkan baris berikut pada file `setup.sh` untuk mengonfigurasi zona DNS :**
-- ```
+- ```bash
   # menambah rujapala
     echo "Menambahkan konfigurasi zona rujapala.it12.com ke /etc/bind/named.conf.local..."
     echo 'zone "rujapala.it12.com" {' >> /etc/bind/named.conf.local
@@ -276,7 +267,7 @@
   ```
 
 **Tambahkan DNS record berikut :**
-- ```
+- ```bash
   echo ';' > /etc/bind/db.rujapala.it12.com
     echo '; BIND data file for local loopback interface' >> /etc/bind/db.rujapala.it12.com
     echo ';' >> /etc/bind/db.rujapala.it12.com
@@ -294,7 +285,7 @@
   ```
 
 **Setelah konfigurasi selesai, restart Bind9 :**
-- ```
+- ```bash
   service bind9 restart
   ```
 
@@ -319,7 +310,7 @@
 **Testing pada semua client** :
 
    - Lakukan test ptr pada `semua client` dengan perintah berikut ini :
-   - ```
+   - ```bash
      ping sudarsana.it12.com
      ping pasopati.it12.com
      ping rujapala.it12.com
@@ -337,7 +328,7 @@
 **Script / Config :**
 
 **Untuk mengatur reverse DNS, ambil tiga angka pertama dari alamat IP server kami dan susun kembali. Maka hasil reverse-nya akan menjadi 2.239.192. Masukkan script pada file `setup.sh` :**
-- ```
+- ```bash
   # Menambahkan REVERSE DNS
     echo "configure reverse dns..."
     echo 'zone "2.239.192.in-addr.arpa" {
@@ -366,6 +357,11 @@
     service bind9 restart
 
     echo "DNS Master server setup completed."
+  ```
+
+**Lakukan testing pada `client` dengan perintah berikut ini :**
+- ```bash
+  host -t PTR 192.239.2.4
   ```
 
   ![6 1](https://github.com/user-attachments/assets/1bbfa6f4-9094-48e0-ab75-a111570fc146)

@@ -191,7 +191,21 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Sriwijaya** :
+    -   ```
+        nano /etc/bind/db.sudarsana.it12.com
+        ```
+    - Masukkan config berikut pada line paling bawah :
+        ```
+        cakra   IN      A       192.239.1.5     ; IP Bedahulu
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- Pada client coba `ping cakra.sudarsana.it12.com`
+    ![image](https://github.com/user-attachments/assets/d530f70d-10c4-46b8-a0b0-08abc63c0f8d)
 
 ### Nomor 9
 **Soal:**

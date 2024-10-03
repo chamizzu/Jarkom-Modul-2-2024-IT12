@@ -304,7 +304,23 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Majapahit** :
+    - Masuk ke file `panah.pasopati.it12.com`
+        ```
+        nano /etc/bind/panah/panah.pasopati.it12.com
+        ```
+    - Tambahkan line berikut pada barisan paling bawah :
+        ```
+        log     IN      A       192.239.2.4     ; IP Kotalingga
+        www.log IN      CNAME   panah.pasopati.it12.com.
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- lakukan ping pada `log.panah.pasopati.it12.com` dan `www.log.panah.pasopati.it12.com`
+    ![image](https://github.com/user-attachments/assets/d919e9f5-54dc-4eee-a43d-3f57f6cf97ab)
 
 ### Nomor 11
 **Soal:**

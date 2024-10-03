@@ -213,7 +213,90 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Sriwijaya** :
+    -   ```bash
+        nano /etc/bind/db.pasopati.it12.com
+        ```
+    - Tambahkan line berikut ke barisan paling bawah file `db.pasopati.it12.com` :
+        ```
+        ns1     IN      A       192.239.2.2     ; IP Majapahit
+        panah   IN      NS      ns1
+        ```
+    -   Lalu ketik
+        ```bash
+        nano /etc/bind/named.conf.options
+        ```
+    - Masukkan :
+        ```
+        options {
+                    directory "/var/cache/bind";
+                    allow-query{any;};
+                    auth-nxdomain no;    # conform to RFC1035
+                    listen-on-v6 { any; };
+            };
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+- Pada **Majapahit** :
+    - buat folder baru bernama `panah`
+        ```bash
+        mkdir /etc/bind/panah
+        ```
+    - buka `named.conf.options`
+        ```
+        nano /etc/bind/named.conf.options
+        ```
+    - Masukkan :
+        ```
+        options {
+                    directory "/var/cache/bind";
+                    allow-query{any;};
+                    auth-nxdomain no;    # conform to RFC1035
+                    listen-on-v6 { any; };
+            };
+        ```
+    - Lalu buka `named.conf.local`
+        ```
+        nano /etc/bind/named.conf.local
+        ```
+    - Masukkan :
+        ```
+        zone "panah.pasopati.it12.com" {
+                type master;
+                file "/etc/bind/panah/panah.pasopati.it12.com";
+        };
+        ```
+    - Lalu copy file `db.local` menjadi `panah.pasopati.it12.com`
+        ```
+        cp /etc/bind/db.local /etc/bind/panah/panah.pasopati.it12.com
+        ```
+    - Ganti dengan konfigurasi berikut :
+        ```
+        ;
+        ; BIND data file for local loopback interface
+        ;
+        $TTL    604800
+        @       IN      SOA     panah.pasopati.it12.com. root.panah.pasopati.it12.com. (
+                                2         ; Serial
+                            604800         ; Refresh
+                            86400         ; Retry
+                            2419200         ; Expire
+                            604800 )       ; Negative Cache TTL
+        ;
+        @       IN      NS      panah.pasopati.it12.com.
+        @       IN      A       192.239.2.4     ; IP Kotalingga
+        www     IN      CNAME   panah.pasopati.it12.com.
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- Lakukan ping pada `panah.pasopati.it12.com` pada client
+    ![image](https://github.com/user-attachments/assets/957ee77b-b509-4666-90fc-fd8d4d9dc86b)
+
 
 ### Nomor 10
 **Soal:**

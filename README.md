@@ -191,7 +191,21 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Sriwijaya** :
+    -   ```
+        nano /etc/bind/db.sudarsana.it12.com
+        ```
+    - Masukkan config berikut pada line paling bawah :
+        ```
+        cakra   IN      A       192.239.1.5     ; IP Bedahulu
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- Pada client coba `ping cakra.sudarsana.it12.com`
+    ![image](https://github.com/user-attachments/assets/d530f70d-10c4-46b8-a0b0-08abc63c0f8d)
 
 ### Nomor 9
 **Soal:**
@@ -199,7 +213,90 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Sriwijaya** :
+    -   ```bash
+        nano /etc/bind/db.pasopati.it12.com
+        ```
+    - Tambahkan line berikut ke barisan paling bawah file `db.pasopati.it12.com` :
+        ```
+        ns1     IN      A       192.239.2.2     ; IP Majapahit
+        panah   IN      NS      ns1
+        ```
+    -   Lalu ketik
+        ```bash
+        nano /etc/bind/named.conf.options
+        ```
+    - Masukkan :
+        ```
+        options {
+                    directory "/var/cache/bind";
+                    allow-query{any;};
+                    auth-nxdomain no;    # conform to RFC1035
+                    listen-on-v6 { any; };
+            };
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+- Pada **Majapahit** :
+    - buat folder baru bernama `panah`
+        ```bash
+        mkdir /etc/bind/panah
+        ```
+    - buka `named.conf.options`
+        ```
+        nano /etc/bind/named.conf.options
+        ```
+    - Masukkan :
+        ```
+        options {
+                    directory "/var/cache/bind";
+                    allow-query{any;};
+                    auth-nxdomain no;    # conform to RFC1035
+                    listen-on-v6 { any; };
+            };
+        ```
+    - Lalu buka `named.conf.local`
+        ```
+        nano /etc/bind/named.conf.local
+        ```
+    - Masukkan :
+        ```
+        zone "panah.pasopati.it12.com" {
+                type master;
+                file "/etc/bind/panah/panah.pasopati.it12.com";
+        };
+        ```
+    - Lalu copy file `db.local` menjadi `panah.pasopati.it12.com`
+        ```
+        cp /etc/bind/db.local /etc/bind/panah/panah.pasopati.it12.com
+        ```
+    - Ganti dengan konfigurasi berikut :
+        ```
+        ;
+        ; BIND data file for local loopback interface
+        ;
+        $TTL    604800
+        @       IN      SOA     panah.pasopati.it12.com. root.panah.pasopati.it12.com. (
+                                2         ; Serial
+                            604800         ; Refresh
+                            86400         ; Retry
+                            2419200         ; Expire
+                            604800 )       ; Negative Cache TTL
+        ;
+        @       IN      NS      panah.pasopati.it12.com.
+        @       IN      A       192.239.2.4     ; IP Kotalingga
+        www     IN      CNAME   panah.pasopati.it12.com.
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- Lakukan ping pada `panah.pasopati.it12.com` pada client
+    ![image](https://github.com/user-attachments/assets/957ee77b-b509-4666-90fc-fd8d4d9dc86b)
+
 
 ### Nomor 10
 **Soal:**
@@ -207,7 +304,23 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Majapahit** :
+    - Masuk ke file `panah.pasopati.it12.com`
+        ```
+        nano /etc/bind/panah/panah.pasopati.it12.com
+        ```
+    - Tambahkan line berikut pada barisan paling bawah :
+        ```
+        log     IN      A       192.239.2.4     ; IP Kotalingga
+        www.log IN      CNAME   panah.pasopati.it12.com.
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- lakukan ping pada `log.panah.pasopati.it12.com` dan `www.log.panah.pasopati.it12.com`
+    ![image](https://github.com/user-attachments/assets/d919e9f5-54dc-4eee-a43d-3f57f6cf97ab)
 
 ### Nomor 11
 **Soal:**
@@ -215,7 +328,35 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Sriwijaya** dan **Majapahit** :
+    - buka file `named.conf.options`
+        ```
+        nano /etc/bind/named.conf.options
+        ```
+    - Ganti isi nya menjadi :
+        ```
+        options {
+                    directory "/var/cache/bind";
+                    allow-query{any;};
+                    forwarders {
+                        192.168.122.1; //IP Erangel
+                    };
+                    auth-nxdomain no;    # conform to RFC1035
+                    listen-on-v6 { any; };
+            };
+        ```
+    - Restart service bind
+        ```
+        service bind9 restart
+        ```
+**Testing pada client** :
+- pastikan pada `/etc/resolve.conf` tidak ada `nameserver 192.168.122.1`
+
+    ![image](https://github.com/user-attachments/assets/e2f5643b-5ebe-42ad-8404-2e0086ef87ed)
+
+- coba `ping google.com`
+
+    ![image](https://github.com/user-attachments/assets/8f4c92d1-a25b-45b5-afbe-e5828e04be0e)
 
 ### Nomor 12
 **Soal:**

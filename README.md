@@ -366,7 +366,7 @@
 
   ![6 1](https://github.com/user-attachments/assets/1bbfa6f4-9094-48e0-ab75-a111570fc146)
   
-  [6 2](https://github.com/user-attachments/assets/8c572861-a4ee-4f6d-b4a8-bc1c3b14d86e)
+  ![6 2](https://github.com/user-attachments/assets/876a6e3a-c065-4a64-a3f7-7f749fe14cd0)
 
 ### Nomor 7
 **Soal:**

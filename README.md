@@ -633,7 +633,26 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Kotalingga** : 
+    - install `apache2`, `libapache2-mod-php7.0`, `unzip`, `php`
+    - Download file yang diminta dari google drive dengan menggunakan `curl`
+        ```
+        curl -L -o lb.zip --insecure "https://drive.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7"
+        ```
+    - Lalu unzip file yang di download
+    - Lalu copy file di dalam folder worker ke dalam `/var/www/html/`
+        ```
+        cp worker/index.php /var/www/html/index.php
+        ```
+    - Restart apache
+        ```
+        service apache2 restart
+        ```
+
+**Testing di client** :
+- jalankan `lynx http://192.239.2.4/index.php`
+    ![image](https://github.com/user-attachments/assets/3e26bad3-4994-4690-9129-bde78b15c4bf)
+
 
 ### Nomor 13
 **Soal:**
@@ -641,7 +660,39 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- Pada **Tanjungkulai** dan **Bedahulu** jalankan config seperti pada **nomor 12**
+
+- Pada **Solok** :
+    - Install `apache2`, `libapache2-mod-php7.0`, dan `php`
+    - Aktifkan module yang di gunakan di apache2 dengan command :
+        ```
+        a2enmod proxy proxy_balancer proxy_http lbmethod_byrequests
+        ```
+    - Edit file `/etc/apache2/sites-available/000-default.conf`
+        ```
+        <VirtualHost *:80>
+            <Proxy balancer://servergue>
+                BalancerMember http://192.239.1.4/
+                BalancerMember http://192.239.1.5/
+                BalancerMember http://192.239.2.4/
+                Proxyset lbmethod=byrequests
+            </Proxy>
+            ProxyPass / balancer://servergue/
+            ProxyPassReverse / balancer://servergue/
+        </VirtualHost>
+        ```
+    - Restart apache2
+        ```
+        service apache2 restart
+        ```
+
+**Testing di client** :
+- Jalankan `lynx http://192.239.3.2/index.php`
+
+    <video width="600" controls>
+        <source src="./assets/video_load_balancer.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
 ### Nomor 14
 **Soal:**

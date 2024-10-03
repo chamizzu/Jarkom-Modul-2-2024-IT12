@@ -689,10 +689,7 @@
 **Testing di client** :
 - Jalankan `lynx http://192.239.3.2/index.php`
 
-    <video width="600" controls>
-        <source src="./assets/video_load_balancer.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    ![Video GIF](./assets/video_bukti.gif)
 
 ### Nomor 14
 **Soal:**

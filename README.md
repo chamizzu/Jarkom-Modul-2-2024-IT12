@@ -9,6 +9,44 @@
 
 ## Topologi
 
+![image](https://github.com/user-attachments/assets/7a0bfee1-9b1d-4124-ab2b-98f9872a21f9)
+
+## Setup Jaringan
+
+- Pada **Nusantara** :
+    - klik kanan lalu pilih `configure`, Scroll lalu klik pada `Network Configuration`
+    - Isi dengan config berikut :
+        ```
+        auto eth0
+        iface eth0 inet dhcp
+
+        auto eth1
+        iface eth1 inet static
+            address 192.239.1.1
+            netmask 255.255.255.0
+
+        auto eth2
+        iface eth2 inet static
+            address 192.239.2.1
+            netmask 255.255.255.0
+
+        auto eth3
+        iface eth3 inet static
+            address 192.239.3.1
+            netmask 255.255.255.0
+        ```
+- Pada **Node** lain:
+    - Masukkan config berikut pada setiap node
+    - Pastikan **gateaway** sesuai dengan node sebelumnya
+    - Untuk **address** sesuaikan, jangan sampai ada yang sama dengan node sebelumnya
+        ```
+        auto eth0
+        iface eth0 inet static
+            address 192.239.1.3
+            netmask 255.255.255.0
+            gateway 192.239.1.1
+        ```
+
 
 ## Langkah-Langkah
 
@@ -67,7 +105,85 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+- pada **Sriwijaya** :
+
+    - `nano /etc/bind/named.conf.local`
+
+    - lalu tambahkan :
+        ```bash
+        zone "sudarsana.it12.com" {
+            type master;
+            notify yes;
+            also-notify { 192.239.2.2; }; // IP Majapahit
+            allow-transfer { 192.239.2.2; }; // IP Majapahit
+            file "/etc/bind/db.sudarsana.it12.com";
+        };
+
+        zone "pasopati.it12.com" {
+            type master;
+            notify yes;
+            also-notify { 192.239.2.2; }; // IP Majapahit
+            allow-transfer { 192.239.2.2; }; // IP Majapahit
+            file "/etc/bind/db.pasopati.it12.com";
+        };
+
+        zone "rujapala.it12.com" {
+            type master;
+            notify yes;
+            also-notify { 192.239.2.2; }; // IP Majapahit
+            allow-transfer { 192.239.2.2; }; // IP Majapahit
+            file "/etc/bind/db.rujapala.it12.com";
+        };
+
+        ```
+
+    - Lalu restart bind service
+        ```bash
+        service bind0 restart
+        ```
+
+- Pada **Majapahit** :
+
+    -   ```bash
+        nano /etc/bind/named.conf.local
+        ```
+    
+    - Lalu tambahkan juga :
+        ```bash
+        zone "sudarsana.it12.com" {
+            type slave;
+            masters { 192.239.1.3; }; // IP Sriwijaya
+            file "/var/lib/bind/sudarsana.it12.com";
+        };
+
+        zone "pasopati.it12.com" {
+            type slave;
+            masters { 192.239.1.3; }; // IP Sriwijaya
+            file "/var/lib/bind/pasopati.it12.com";
+        };
+
+        zone "rujapala.it12.com" {
+            type slave;
+            masters { 192.239.1.3; }; // IP Sriwijaya
+            file "/var/lib/bind/rujapala.it12.com";
+        };
+
+        ```
+    - Lalu restart bind service
+        ```bash
+        service bind0 restart
+        ```
+
+**Testing pada client**:
+
+- Pada **Sriwijaya** matikan service dari bind
+    ```bash
+    service bind9 stop
+    ```
+
+- Lakukan ping domain pada **client**:
+    ![image](https://github.com/user-attachments/assets/de8d1001-aede-4035-82fc-89728a929bfa)
+
 
 ### Nomor 8
 **Soal:**

@@ -368,6 +368,8 @@
   
   ![6 2](https://github.com/user-attachments/assets/876a6e3a-c065-4a64-a3f7-7f749fe14cd0)
 
+  ![Screenshot 2024-10-04 003240](https://github.com/user-attachments/assets/399261d3-faf0-4b9e-a512-c5d200fed9e9)
+
 ### Nomor 7
 **Soal:**
 > Akhir-akhir ini seringkali terjadi serangan brainrot ke DNS Server Utama, sebagai tindakan antisipasi kamu diperintahkan untuk membuat DNS Slave di Majapahit untuk semua domain yang sudah dibuat sebelumnya yang mengarah ke Sriwijaya.

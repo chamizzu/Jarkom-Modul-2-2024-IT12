@@ -57,30 +57,47 @@
 
 **Script / Config :**
 
+**Tambahkan juga konfigurasi berikut di Nusantara (Router) agar semua node di jaringan bisa mengakses internet luar :**
+- ```
+  iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.239.0.0/16
+  ```
+  
+**Ubah nameserver di Sriwijaya dengan menggunakan IP nameserver Nusantara :**
+- ```
+  echo nameserver 192.168.122.1 > /etc/resolv.conf
+  cat /etc/resolv.conf
+  ```
+
+**Install Bind9 pada Sriwijaya**
+- ```
+  apt-get update
+  apt-get install bind9 -y
+  ```
+
+
 **Testing pada semua node** :
 
-   - Lakukan ping pada `semua node`
-     ![1 ANUSPATI](https://github.com/user-attachments/assets/1f45e638-f001-400f-b37d-fa3484a483c1)
+   - Lakukan ping pada `semua node` dengan perintah `ping google.com`
+     ![1 ANUSPATI](https://github.com/user-attachments/assets/5664a377-25e9-448e-8849-33d5a47a05d4)
 
-     ![1 BEDAHULU](https://github.com/user-attachments/assets/bd2ceaa8-adfa-49c2-a097-2b915913fa28)
+     ![1 BEDAHULU](https://github.com/user-attachments/assets/4d4dac4f-d7d7-44ac-8292-af36bc691076)
 
-     ![1 JAYANEGARA](https://github.com/user-attachments/assets/405bedfd-e68a-4539-ad99-e174d9222b5c)
+     ![1 JAYANEGARA](https://github.com/user-attachments/assets/29c0fa44-f45c-41bd-a7df-177ff4c80c04)
 
-     ![1 KOTALINGGA](https://github.com/user-attachments/assets/05c5b1d5-9bed-4ee2-90d2-1dd2f1c7a282)
+     ![1 KOTALINGGA](https://github.com/user-attachments/assets/1439cf71-6d73-43ce-96fb-f4df08aa55ab)
 
-     ![1 MAJAPAHIT](https://github.com/user-attachments/assets/581692b9-e9ad-45d0-9c2f-2c036a6192bb)
+     ![1 MAJAPAHIT](https://github.com/user-attachments/assets/0945a7ef-2251-4163-a9e8-1810a22240e7)
 
-     ![1 NUSANTARA](https://github.com/user-attachments/assets/0e76c72d-0975-4ce7-b105-7791176e4c03)
+     ![1 NUSANTARA](https://github.com/user-attachments/assets/2b725c70-82f0-43ee-8536-cfcdc2311504)
 
-     ![1 SANJAYA](https://github.com/user-attachments/assets/52474134-d68b-4be5-9392-1140e7d146aa)
+     ![1 SANJAYA](https://github.com/user-attachments/assets/9bf1c5a6-b595-406c-870e-580090322422)
 
-     ![1 SOLOK](https://github.com/user-attachments/assets/6cbddb3d-ebe3-4d84-b459-1c0eb1ade780)
+     ![1 SOLOK](https://github.com/user-attachments/assets/6bcd08de-d58f-4120-bfd0-e5f3918d9230)
 
-     ![1 SRIWIJAYA](https://github.com/user-attachments/assets/a30f8a18-62bd-4c10-9b18-9cd5f6b32a19)
+     ![1 SRIWIJAYA](https://github.com/user-attachments/assets/9f17aac8-c0c9-48ff-a8db-d95363c2049e)
 
-     ![1 TANJUGKULAI](https://github.com/user-attachments/assets/b761c366-2d37-4266-950c-a382ae318819)
+     ![1 TANJUGKULAI](https://github.com/user-attachments/assets/d18940a9-ff0b-40ed-805d-a1c58ae1e030)
 
-[isi langkah-langkah disini]
 
 ### Nomor 2
 **Soal:**
@@ -88,11 +105,68 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+**Jalankan perintah berikut untuk memperbarui paket dan menginstal Bind9 :**
+- ```
+  apt-get update
+  apt-get install bind9 -y
+  ```
+
+**Menjalankan service Bind9 :**
+- ```
+  service bind9 start
+  ```
+
+**Tambahkan baris berikut pada file `setup.sh` untuk mengonfigurasi zona DNS :**
+- ```
+  elif [[ $1 == "dns-master" ]]; then
+    echo "Configuring DNS resolver..."
+    echo "nameserver 192.168.122.1" > /etc/resolv.conf
+
+    echo "Updating system..."
+    apt-get update
+
+    echo "Installing BIND9..."
+    apt-get install -y bind9
+
+    echo "Menambahkan konfigurasi zona sudarsono.it12.com ke /etc/bind/named.conf.local..."
+    echo 'zone "sudarsana.it12.com" {' >> /etc/bind/named.conf.local
+    echo '    type master;' >> /etc/bind/named.conf.local
+    echo '    notify yes;' >> /etc/bind/named.conf.local
+    echo '    also-notify { 192.239.2.2; }; // IP Majapahit' >> /etc/bind/named.conf.local
+    echo '    allow-transfer { 192.239.2.2; }; // IP Majapahit' >> /etc/bind/named.conf.local
+    echo '    file "/etc/bind/db.sudarsana.it12.com";' >> /etc/bind/named.conf.local
+    echo '};' >> /etc/bind/named.conf.local
+
+    cp /etc/bind/db.local /etc/bind/db.sudarsana.it12.com
+  ```
+
+**Tambahkan DNS record berikut :**
+- ```
+  echo ';' > /etc/bind/db.sudarsana.it12.com
+    echo '; BIND data file for local loopback interface' >> /etc/bind/db.sudarsana.it12.com
+    echo ';' >> /etc/bind/db.sudarsana.it12.com
+    echo '$TTL    604800' >> /etc/bind/db.sudarsana.it12.com
+    echo '@       IN      SOA     sudarsana.it12.com. root.sudarsana.it12.com. (' >> /etc/bind/db.sudarsana.it12.com
+    echo '                        2024050301      ; Serial' >> /etc/bind/db.sudarsana.it12.com
+    echo '                        604800         ; Refresh' >> /etc/bind/db.sudarsana.it12.com
+    echo '                        86400          ; Retry' >> /etc/bind/db.sudarsana.it12.com
+    echo '                        2419200        ; Expire' >> /etc/bind/db.sudarsana.it12.com
+    echo '                        604800 )       ; Negative Cache TTL' >> /etc/bind/db.sudarsana.it12.com
+    echo ';' >> /etc/bind/db.sudarsana.it12.com
+    echo '@       IN      NS      sudarsana.it12.com.' >> /etc/bind/db.sudarsana.it12.com
+    echo '@       IN      A       192.239.3.2     ; IP Solok' >> /etc/bind/db.sudarsana.it12.com
+    echo 'www     IN      CNAME   sudarsana.it12.com.' >> /etc/bind/db.sudarsana.it12.com
+    echo 'cakra   IN      A       192.239.1.5     ; IP Bedahulu' >> /etc/bind/db.sudarsana.it12.com
+  ```
+
+**Setelah konfigurasi selesai, restart Bind9 :**
+- ```
+  service bind9 restart
+  ```
 
 **Testing pada semua client** :
 
-   - Lakukan ping pada `semua client`
+   - Lakukan ping pada `semua client` dengan perintah `ping sudarsana.it12.com`
 
      ![2 1](https://github.com/user-attachments/assets/1a669d1c-3d46-4b67-9bcb-253d6fd2700a)
 
@@ -107,11 +181,60 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+**Jalankan perintah berikut untuk memperbarui paket dan menginstal Bind9 :**
+- ```
+  apt-get update
+  apt-get install bind9 -y
+  ```
+
+**Menjalankan service Bind9 :**
+- ```
+  service bind9 start
+  ```
+
+**Tambahkan baris berikut pada file `setup.sh` untuk mengonfigurasi zona DNS :**
+- ```
+  # menambah pasopati
+    echo "Menambahkan konfigurasi zona pasopati.it12.com ke /etc/bind/named.conf.local..."
+    echo 'zone "pasopati.it12.com" {' >> /etc/bind/named.conf.local
+    echo '    type master;' >> /etc/bind/named.conf.local
+    echo '    notify yes;' >> /etc/bind/named.conf.local
+    echo '    also-notify { 192.239.2.2; }; // IP Majapahit' >> /etc/bind/named.conf.local
+    echo '    allow-transfer { 192.239.2.2; }; // IP Majapahit' >> /etc/bind/named.conf.local
+    echo '    file "/etc/bind/db.pasopati.it12.com";' >> /etc/bind/named.conf.local
+    echo '};' >> /etc/bind/named.conf.local
+
+    cp /etc/bind/db.local /etc/bind/db.pasopati.it12.com
+  ```
+
+**Tambahkan DNS record berikut :**
+- ```
+  echo ';' > /etc/bind/db.pasopati.it12.com
+    echo '; BIND data file for local loopback interface' >> /etc/bind/db.pasopati.it12.com
+    echo ';' >> /etc/bind/db.pasopati.it12.com
+    echo '$TTL    604800' >> /etc/bind/db.pasopati.it12.com
+    echo '@       IN      SOA     pasopati.it12.com. root.pasopati.it12.com. (' >> /etc/bind/db.pasopati.it12.com
+    echo '                        2024050301      ; Serial' >> /etc/bind/db.pasopati.it12.com
+    echo '                        604800         ; Refresh' >> /etc/bind/db.pasopati.it12.com
+    echo '                        86400          ; Retry' >> /etc/bind/db.pasopati.it12.com
+    echo '                        2419200        ; Expire' >> /etc/bind/db.pasopati.it12.com
+    echo '                        604800 )       ; Negative Cache TTL' >> /etc/bind/db.pasopati.it12.com
+    echo ';' >> /etc/bind/db.pasopati.it12.com
+    echo '@       IN      NS      pasopati.it12.com.' >> /etc/bind/db.pasopati.it12.com
+    echo '@       IN      A       192.239.2.4     ; IP Kotalingga' >> /etc/bind/db.pasopati.it12.com
+    echo 'www     IN      CNAME   pasopati.it12.com.' >> /etc/bind/db.pasopati.it12.com
+    echo 'ns1     IN      A       192.239.2.2     ; IP Majapahit' >> /etc/bind/db.pasopati.it12.com
+    echo 'panah   IN      NS      ns1' >> /etc/bind/db.pasopati.it12.com
+  ```
+
+**Setelah konfigurasi selesai, restart Bind9 berikut:**
+- ```
+  service bind9 restart
+  ```
 
 **Testing pada semua client** :
 
-   - Lakukan ping pada `semua client`
+   - Lakukan ping pada `semua client` dengan perintah `ping pasopati.it12.com`
 
      ![3 1](https://github.com/user-attachments/assets/b898fd98-3df1-4bf5-b8ae-030e2c691d03)
 
@@ -126,11 +249,58 @@
 
 **Script / Config :**
 
-[isi langkah-langkah disini]
+**Jalankan perintah berikut untuk memperbarui paket dan menginstal Bind9 :**
+- ```
+  apt-get update
+  apt-get install bind9 -y
+  ```
+
+**Menjalankan service Bind9 :**
+- ```
+  service bind9 start
+  ```
+  
+**Tambahkan baris berikut pada file `setup.sh` untuk mengonfigurasi zona DNS :**
+- ```
+  # menambah rujapala
+    echo "Menambahkan konfigurasi zona rujapala.it12.com ke /etc/bind/named.conf.local..."
+    echo 'zone "rujapala.it12.com" {' >> /etc/bind/named.conf.local
+    echo '    type master;' >> /etc/bind/named.conf.local
+    echo '    notify yes;' >> /etc/bind/named.conf.local
+    echo '    also-notify { 192.239.2.2; }; // IP Majapahit' >> /etc/bind/named.conf.local
+    echo '    allow-transfer { 192.239.2.2; }; // IP Majapahit' >> /etc/bind/named.conf.local
+    echo '    file "/etc/bind/db.rujapala.it12.com";' >> /etc/bind/named.conf.local
+    echo '};' >> /etc/bind/named.conf.local
+
+    cp /etc/bind/db.local /etc/bind/db.rujapala.it12.com
+  ```
+
+**Tambahkan DNS record berikut :**
+- ```
+  echo ';' > /etc/bind/db.rujapala.it12.com
+    echo '; BIND data file for local loopback interface' >> /etc/bind/db.rujapala.it12.com
+    echo ';' >> /etc/bind/db.rujapala.it12.com
+    echo '$TTL    604800' >> /etc/bind/db.rujapala.it12.com
+    echo '@       IN      SOA     rujapala.it12.com. root.rujapala.it12.com. (' >> /etc/bind/db.rujapala.it12.com
+    echo '                        2024050301      ; Serial' >> /etc/bind/db.rujapala.it12.com
+    echo '                        604800         ; Refresh' >> /etc/bind/db.rujapala.it12.com
+    echo '                        86400          ; Retry' >> /etc/bind/db.rujapala.it12.com
+    echo '                        2419200        ; Expire' >> /etc/bind/db.rujapala.it12.com
+    echo '                        604800 )       ; Negative Cache TTL' >> /etc/bind/db.rujapala.it12.com
+    echo ';' >> /etc/bind/db.rujapala.it12.com
+    echo '@       IN      NS      rujapala.it12.com.' >> /etc/bind/db.rujapala.it12.com
+    echo '@       IN      A       192.239.1.4     ; IP Tanjungkulai' >> /etc/bind/db.rujapala.it12.com
+    echo 'www     IN      CNAME   rujapala.it12.com.' >> /etc/bind/db.rujapala.it12.com
+  ```
+
+**Setelah konfigurasi selesai, restart Bind9 :**
+- ```
+  service bind9 restart
+  ```
 
 **Testing pada semua client** :
 
-   - Lakukan ping pada `semua client`
+   - Lakukan ping pada `semua client` dengan perintah `ping rujapala.it12.com`
 
      ![4 1](https://github.com/user-attachments/assets/5c7ab058-962f-444b-b03e-ad58b9ea89de)
 
@@ -157,7 +327,12 @@
 
 **Testing pada semua client** :
 
-   - Lakukan test ptr pada `semua client`
+   - Lakukan test ptr pada `semua client` dengan perintah berikut ini :
+   - ```
+     ping sudarsana.it12.com
+     ping pasopati.it12.com
+     ping rujapala.it12.com
+     ```
 
      ![6 1](https://github.com/user-attachments/assets/1bbfa6f4-9094-48e0-ab75-a111570fc146)
 

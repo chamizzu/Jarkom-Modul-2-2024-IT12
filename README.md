@@ -57,6 +57,29 @@
 
 **Script / Config :**
 
+**Testing pada semua node** :
+
+   - Lakukan ping pada `semua node`
+     ![1 ANUSPATI](https://github.com/user-attachments/assets/1f45e638-f001-400f-b37d-fa3484a483c1)
+
+     ![1 BEDAHULU](https://github.com/user-attachments/assets/bd2ceaa8-adfa-49c2-a097-2b915913fa28)
+
+     ![1 JAYANEGARA](https://github.com/user-attachments/assets/405bedfd-e68a-4539-ad99-e174d9222b5c)
+
+     ![1 KOTALINGGA](https://github.com/user-attachments/assets/05c5b1d5-9bed-4ee2-90d2-1dd2f1c7a282)
+
+     ![1 MAJAPAHIT](https://github.com/user-attachments/assets/581692b9-e9ad-45d0-9c2f-2c036a6192bb)
+
+     ![1 NUSANTARA](https://github.com/user-attachments/assets/0e76c72d-0975-4ce7-b105-7791176e4c03)
+
+     ![1 SANJAYA](https://github.com/user-attachments/assets/52474134-d68b-4be5-9392-1140e7d146aa)
+
+     ![1 SOLOK](https://github.com/user-attachments/assets/6cbddb3d-ebe3-4d84-b459-1c0eb1ade780)
+
+     ![1 SRIWIJAYA](https://github.com/user-attachments/assets/a30f8a18-62bd-4c10-9b18-9cd5f6b32a19)
+
+     ![1 TANJUGKULAI](https://github.com/user-attachments/assets/b761c366-2d37-4266-950c-a382ae318819)
+
 [isi langkah-langkah disini]
 
 ### Nomor 2
@@ -67,6 +90,17 @@
 
 [isi langkah-langkah disini]
 
+**Testing pada semua client** :
+
+   - Lakukan ping pada `semua client`
+
+     ![2 1](https://github.com/user-attachments/assets/1a669d1c-3d46-4b67-9bcb-253d6fd2700a)
+
+     ![2 2](https://github.com/user-attachments/assets/012cb7e5-eaa8-4517-8508-f64d633766d2)
+
+     ![2 3](https://github.com/user-attachments/assets/cc625c80-8974-4c2c-9826-3507ee5eb594)
+
+
 ### Nomor 3
 **Soal:**
 > Para pasukan juga perlu mengetahui mana titik yang akan diserang, sehingga dibutuhkan domain lain yaitu pasopati.xxxx.com dengan alias www.pasopati.xxxx.com yang mengarah ke Kotalingga.
@@ -75,6 +109,17 @@
 
 [isi langkah-langkah disini]
 
+**Testing pada semua client** :
+
+   - Lakukan ping pada `semua client`
+
+     ![3 1](https://github.com/user-attachments/assets/b898fd98-3df1-4bf5-b8ae-030e2c691d03)
+
+     ![3 2](https://github.com/user-attachments/assets/eda5325c-0b95-4b3b-89c1-e661f692e226)
+
+     ![3 3](https://github.com/user-attachments/assets/4f190c9b-218e-40d4-93b4-15393effa1e0)
+
+
 ### Nomor 4
 **Soal:**
 > Markas pusat meminta dibuatnya domain khusus untuk menaruh informasi persenjataan dan suplai yang tersebar. Informasi dan suplai meme terbaru tersebut mengarah ke Tanjungkulai dan domain yang ingin digunakan adalah rujapala.xxxx.com dengan alias www.rujapala.xxxx.com.
@@ -82,6 +127,17 @@
 **Script / Config :**
 
 [isi langkah-langkah disini]
+
+**Testing pada semua client** :
+
+   - Lakukan ping pada `semua client`
+
+     ![4 1](https://github.com/user-attachments/assets/5c7ab058-962f-444b-b03e-ad58b9ea89de)
+
+     ![4 2](https://github.com/user-attachments/assets/1fbfc2b8-acd6-4600-bf06-9924d3d63e7c)
+
+     ![4 3](https://github.com/user-attachments/assets/63e94064-8c7e-4ea5-87b8-6b653284fe7a)
+
 
 ### Nomor 5
 **Soal:**
@@ -98,6 +154,15 @@
 **Script / Config :**
 
 [isi langkah-langkah disini]
+
+**Testing pada semua client** :
+
+   - Lakukan test ptr pada `semua client`
+
+     ![6 1](https://github.com/user-attachments/assets/1bbfa6f4-9094-48e0-ab75-a111570fc146)
+
+     ![6 2](https://github.com/user-attachments/assets/8c572861-a4ee-4f6d-b4a8-bc1c3b14d86e)
+
 
 ### Nomor 7
 **Soal:**
